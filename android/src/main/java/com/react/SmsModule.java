@@ -80,7 +80,7 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
             String sortOrder = filterJ.has("sortOrder") ? filterJ.optString("sortOrder") : null;
             long maxDate = filterJ.has("maxDate") ? filterJ.optLong("maxDate") : -1;
             long minDate = filterJ.has("minDate") ? filterJ.optLong("minDate") : -1;
-            Cursor cursor = context.getContentResolver().query(Uri.parse("content://sms/"), null, selection, null,
+            Cursor cursor = context.getContentResolver().query(Uri.parse("content://sms/inbox"), null, selection, null,
                     sortOrder);
             int c = 0;
             JSONArray jsons = new JSONArray();

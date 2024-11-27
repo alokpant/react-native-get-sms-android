@@ -49,7 +49,7 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
     private Map<Long, Object> smsListBody;
     Activity mActivity = null;
     private static Context context;
-    private ReactContext mReactContext;
+    private ReactApplicationContext mReactContext;
     private Callback cb_autoSend_succ = null;
     private Callback cb_autoSend_err = null;
 
@@ -84,10 +84,9 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
             long minDate = filterJ.has("minDate") ? filterJ.optLong("minDate") : -1;
             Uri telephoneContentUri = Telephony.Sms.CONTENT_URI;
 
-
             Log.d("SMS", "filter: " + telephoneContentUri);
             Log.d("SMS", "filter: " + filter);
-            Cursor cursor = context.getContentResolver().query(telephoneContentUri, null, selection, null,
+            Cursor cursor = mReactContext.getContentResolver().query(telephoneContentUri, null, selection, null,
                     sortOrder);
             int c = 0;
             JSONArray jsons = new JSONArray();

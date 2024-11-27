@@ -67,6 +67,8 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
 
     @ReactMethod
     public void list(String filter, final Callback errorCallback, final Callback successCallback) {
+        mActivity = getCurrentActivity();
+
         try {
             JSONObject filterJ = new JSONObject(filter);
             String uri_filter = filterJ.has("box") ? filterJ.optString("box") : "inbox";
@@ -84,10 +86,18 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
             long minDate = filterJ.has("minDate") ? filterJ.optLong("minDate") : -1;
             Uri telephoneContentUri = Telephony.Sms.CONTENT_URI;
 
+            // Log the selection and sortOrder for debugging
+            Log.d("SMS", "Selection: " + selection);
+            Log.d("SMS", "SortOrder: " + sortOrder);
             Log.d("SMS", "filter: " + telephoneContentUri);
+            Log.d("SMS", "myActivity: " + mActivity);
+            if (mActivity != null) {
+                Log.d("SMS", "activity: " + mActivity.getContentResolver().query(Uri.parse("content://sms/"+uri_filter), null, "", null, null).getCount());
+            } else {
+                Log.d("SMS", "Current activity is null.");
+            }
             Log.d("SMS", "filter: " + filter);
-            Cursor cursor = mReactContext.getContentResolver().query(telephoneContentUri, null, selection, null,
-                    sortOrder);
+            Cursor cursor = mReactContext.getContentResolver().query(telephoneContentUri, null, selection, null, sortOrder);
             int c = 0;
             JSONArray jsons = new JSONArray();
 

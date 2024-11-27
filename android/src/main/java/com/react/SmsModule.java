@@ -80,7 +80,7 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
             String sortOrder = filterJ.has("sortOrder") ? filterJ.optString("sortOrder") : null;
             long maxDate = filterJ.has("maxDate") ? filterJ.optLong("maxDate") : -1;
             long minDate = filterJ.has("minDate") ? filterJ.optLong("minDate") : -1;
-            Cursor cursor = context.getContentResolver().query(Uri.parse("content://sms/" + uri_filter), null, selection, null,
+            Cursor cursor = context.getContentResolver().query(Uri.parse("content://sms/"), null, selection, null,
                     sortOrder);
             int c = 0;
             JSONArray jsons = new JSONArray();
@@ -89,13 +89,13 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
                 boolean matchFilter = true;
                 if (fid > -1)
                     matchFilter = fid == cursor.getInt(cursor.getColumnIndex("_id"));
-                else if (ftid > -1)
+                if (ftid > -1)
                     matchFilter = ftid == cursor.getInt(cursor.getColumnIndex("thread_id"));
-                else if (fread > -1)
+                if (fread > -1)
                     matchFilter = fread == cursor.getInt(cursor.getColumnIndex("read"));
-                else if (faddress != null && !faddress.isEmpty())
+                if (faddress != null && !faddress.isEmpty())
                     matchFilter = faddress.equals(cursor.getString(cursor.getColumnIndex("address")).trim());
-                else if (fcontent != null && !fcontent.isEmpty())
+                if (fcontent != null && !fcontent.isEmpty())
                     matchFilter = fcontent.equals(cursor.getString(cursor.getColumnIndex("body")).trim());
 
                 if (fContentRegex != null && !fContentRegex.isEmpty())

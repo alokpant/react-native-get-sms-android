@@ -32,6 +32,7 @@ import android.content.IntentFilter;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.provider.Telephony;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,6 +83,10 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
             long maxDate = filterJ.has("maxDate") ? filterJ.optLong("maxDate") : -1;
             long minDate = filterJ.has("minDate") ? filterJ.optLong("minDate") : -1;
             Uri telephoneContentUri = Telephony.Sms.CONTENT_URI;
+
+
+            Log.d("SMS", "filter: " + telephoneContentUri);
+            Log.d("SMS", "filter: " + filter);
             Cursor cursor = context.getContentResolver().query(telephoneContentUri, null, selection, null,
                     sortOrder);
             int c = 0;

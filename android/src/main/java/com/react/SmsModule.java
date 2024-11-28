@@ -83,18 +83,14 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
             long maxDate = filterJ.has("maxDate") ? filterJ.optLong("maxDate") : -1;
             long minDate = filterJ.has("minDate") ? filterJ.optLong("minDate") : -1;
             Uri telephoneContentUri = Telephony.Sms.CONTENT_URI;
+            Uri filteredUri = Uri.withAppendedPath(telephoneContentUri, uri_filter);
 
-            // Log the selection and sortOrder for debugging
-            Log.d("SMS", "filter: " + filter);
-            Cursor cursor = mReactContext.getContentResolver().query(telephoneContentUri, null, selection, null, sortOrder);
+            Cursor cursor = mReactContext.getContentResolver().query(filteredUri, null, selection, null, sortOrder);
             int c = 0;
-            Log.d("SMS", "cursor count: " + cursor.getCount());
             JSONArray jsons = new JSONArray();
 
             while (cursor != null && cursor.moveToNext()) {
                 boolean matchFilter = true;
-                Log.d("\n\n\nSMS", "cursor body: " + cursor.getString(cursor.getColumnIndex("body")));
-                Log.d("SMS", "cursor read: " + cursor.getString(cursor.getColumnIndex("read")));
                 if (fid > -1)
                     matchFilter = matchFilter && (fid == cursor.getInt(cursor.getColumnIndex("_id")));
                 if (ftid > -1)

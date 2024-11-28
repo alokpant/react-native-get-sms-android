@@ -67,8 +67,6 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
 
     @ReactMethod
     public void list(String filter, final Callback errorCallback, final Callback successCallback) {
-        mActivity = getCurrentActivity();
-
         try {
             JSONObject filterJ = new JSONObject(filter);
             String uri_filter = filterJ.has("box") ? filterJ.optString("box") : "inbox";
@@ -87,16 +85,6 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
             Uri telephoneContentUri = Telephony.Sms.CONTENT_URI;
 
             // Log the selection and sortOrder for debugging
-            Log.d("SMS", "Selection: " + selection);
-            Log.d("SMS", "SortOrder: " + sortOrder);
-            Log.d("SMS", "filter: " + telephoneContentUri);
-            Log.d("SMS", "myActivity: " + mActivity);
-            if (mActivity != null) {
-                Log.d("SMS", "activity: " + mActivity.getContentResolver().query(telephoneContentUri, null, "", null, null).getCount());
-            } else {
-                Log.d("SMS", "Current activity is null.");
-            }
-
             Log.d("SMS", "filter: " + filter);
             Cursor cursor = mReactContext.getContentResolver().query(telephoneContentUri, null, selection, null, sortOrder);
             int c = 0;
@@ -105,6 +93,7 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
 
             while (cursor != null && cursor.moveToNext()) {
                 boolean matchFilter = true;
+                Log.d("SMS", "cursor: " + cursor.getString(cursor.getColumnIndex("body")));
                 if (fid > -1)
                     matchFilter = fid == cursor.getInt(cursor.getColumnIndex("_id"));
                 if (ftid > -1)

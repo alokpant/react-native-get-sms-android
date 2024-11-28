@@ -71,7 +71,6 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
             JSONObject filterJ = new JSONObject(filter);
             String uri_filter = filterJ.has("box") ? filterJ.optString("box") : "inbox";
             int fread = filterJ.has("read") ? filterJ.optInt("read") : -1;
-            int fseen = filterJ.has("seen") ? filterJ.optInt("seen") : -1;
             int fid = filterJ.has("_id") ? filterJ.optInt("_id") : -1;
             int ftid = filterJ.has("thread_id") ? filterJ.optInt("thread_id") : -1;
             String faddress = filterJ.optString("address");
@@ -97,17 +96,15 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
                 Log.d("\n\n\nSMS", "cursor body: " + cursor.getString(cursor.getColumnIndex("body")));
                 Log.d("SMS", "cursor read: " + cursor.getString(cursor.getColumnIndex("read")));
                 if (fid > -1)
-                    matchFilter = fid == cursor.getInt(cursor.getColumnIndex("_id"));
+                    matchFilter = matchFilter && (fid == cursor.getInt(cursor.getColumnIndex("_id")));
                 if (ftid > -1)
-                    matchFilter = ftid == cursor.getInt(cursor.getColumnIndex("thread_id"));
+                    matchFilter = matchFilter && (ftid == cursor.getInt(cursor.getColumnIndex("thread_id")));
                 if (fread > -1)
-                    matchFilter = fread == cursor.getInt(cursor.getColumnIndex("read"));
-                if (fseen > -1)
-                    matchFilter = fread == cursor.getInt(cursor.getColumnIndex("seen"));
+                    matchFilter = matchFilter && (fread == cursor.getInt(cursor.getColumnIndex("read")));
                 if (faddress != null && !faddress.isEmpty())
-                    matchFilter = faddress.equals(cursor.getString(cursor.getColumnIndex("address")).trim());
+                    matchFilter = matchFilter && faddress.equals(cursor.getString(cursor.getColumnIndex("address")).trim());
                 if (fcontent != null && !fcontent.isEmpty())
-                    matchFilter = fcontent.equals(cursor.getString(cursor.getColumnIndex("body")).trim());
+                    matchFilter = matchFilter && fcontent.equals(cursor.getString(cursor.getColumnIndex("body")).trim());
 
                 if (fContentRegex != null && !fContentRegex.isEmpty())
                     matchFilter = matchFilter && cursor.getString(cursor.getColumnIndex("body")).matches(fContentRegex);

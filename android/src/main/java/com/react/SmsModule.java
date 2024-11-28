@@ -97,7 +97,6 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
                 Log.d("SMS", "Current activity is null.");
             }
 
-            Log.d("SMS", "getContentResolver" + getContentResolver().query(telephoneContentUri, null, null, "", null));
             Log.d("SMS", "filter: " + filter);
             Cursor cursor = mReactContext.getContentResolver().query(telephoneContentUri, null, selection, null, sortOrder);
             int c = 0;

@@ -71,6 +71,7 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
             JSONObject filterJ = new JSONObject(filter);
             String uri_filter = filterJ.has("box") ? filterJ.optString("box") : "inbox";
             int fread = filterJ.has("read") ? filterJ.optInt("read") : -1;
+            int fseen = filterJ.has("seen") ? filterJ.optInt("seen") : -1;
             int fid = filterJ.has("_id") ? filterJ.optInt("_id") : -1;
             int ftid = filterJ.has("thread_id") ? filterJ.optInt("thread_id") : -1;
             String faddress = filterJ.optString("address");
@@ -101,6 +102,8 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
                     matchFilter = ftid == cursor.getInt(cursor.getColumnIndex("thread_id"));
                 if (fread > -1)
                     matchFilter = fread == cursor.getInt(cursor.getColumnIndex("read"));
+                if (fseen > -1)
+                    matchFilter = fread == cursor.getInt(cursor.getColumnIndex("seen"));
                 if (faddress != null && !faddress.isEmpty())
                     matchFilter = faddress.equals(cursor.getString(cursor.getColumnIndex("address")).trim());
                 if (fcontent != null && !fcontent.isEmpty())

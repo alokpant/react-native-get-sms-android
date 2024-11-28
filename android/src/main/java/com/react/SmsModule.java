@@ -86,7 +86,7 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
 
             // Log the selection and sortOrder for debugging
             Log.d("SMS", "filter: " + filter);
-            Cursor cursor = mReactContext.getContentResolver().query(telephoneContentUri + "/inbox", null, selection, null, sortOrder);
+            Cursor cursor = mReactContext.getContentResolver().query(telephoneContentUri, null, selection, null, sortOrder);
             int c = 0;
             Log.d("SMS", "cursor count: " + cursor.getCount());
             JSONArray jsons = new JSONArray();

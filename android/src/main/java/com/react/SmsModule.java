@@ -82,7 +82,7 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
             String sortOrder = filterJ.has("sortOrder") ? filterJ.optString("sortOrder") : null;
             long maxDate = filterJ.has("maxDate") ? filterJ.optLong("maxDate") : -1;
             long minDate = filterJ.has("minDate") ? filterJ.optLong("minDate") : -1;
-            Uri telephoneContentUri = Telephony.Sms.CONTENT_URI;
+            Uri telephoneContentUri = Telephony.Sms.CONTENT_URI + uri_filter;
 
             // Log the selection and sortOrder for debugging
             Log.d("SMS", "filter: " + filter);

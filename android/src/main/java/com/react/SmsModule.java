@@ -93,7 +93,8 @@ public class SmsModule extends ReactContextBaseJavaModule /*implements LoaderMan
 
             while (cursor != null && cursor.moveToNext()) {
                 boolean matchFilter = true;
-                Log.d("SMS", "cursor: " + cursor.getString(cursor.getColumnIndex("body")));
+                Log.d("\n\n\nSMS", "cursor body: " + cursor.getString(cursor.getColumnIndex("body")));
+                Log.d("SMS", "cursor read: " + cursor.getString(cursor.getColumnIndex("read")));
                 if (fid > -1)
                     matchFilter = fid == cursor.getInt(cursor.getColumnIndex("_id"));
                 if (ftid > -1)
